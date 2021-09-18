@@ -2,6 +2,7 @@ package dev.ivanqueiroz.horus.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@ToString
 public class Currency {
 
   @Id

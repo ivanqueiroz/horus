@@ -6,6 +6,7 @@ import dev.ivanqueiroz.horus.model.Currency;
 import dev.ivanqueiroz.horus.repository.CurrencyRepository;
 import dev.ivanqueiroz.horus.util.Calculator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CurrencyConverterService {
@@ -27,6 +29,7 @@ public class CurrencyConverterService {
     Currency currency = new Currency();
     exchangeResponseOptional.ifPresent(exchangeResponse -> fillCurrency(userId, amount, currencySource, currencyDestiny, currency, exchangeResponse));
     userTransactionRepository.save(currency);
+    log.info("{} saved.", currency);
     return currency;
   }
 
@@ -45,6 +48,8 @@ public class CurrencyConverterService {
   }
 
   public List<Currency> getAllTransactionsFromUser(Long userId){
-    return userTransactionRepository.findByUserId(userId);
+    final List<Currency> allTransactions = userTransactionRepository.findByUserId(userId);
+    log.info("User {} requested all transactions. Found: {} records", userId, allTransactions.size());
+    return allTransactions;
   }
 }
