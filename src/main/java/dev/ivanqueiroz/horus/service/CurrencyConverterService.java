@@ -22,19 +22,13 @@ public class CurrencyConverterService {
   private final ExchangeRatesClient exchangeRatesClient;
 
   public Currency calculateConversion(BigDecimal amount, Long userId, String currencySource, String currencyDestiny) {
-    final Optional<ExchangeResponse> exchangeResponseOptional = callExchangeRatesApi(userId);
+    final Optional<ExchangeResponse> exchangeResponseOptional = exchangeRatesClient.callExchangeRatesApi(userId);
     Currency currency = new Currency();
     exchangeResponseOptional.ifPresent(exchangeResponse -> fillCurrency(userId, amount, currencySource, currencyDestiny, currency, exchangeResponse));
     userTransactionRepository.save(currency);
     return currency;
   }
 
-  private Optional<ExchangeResponse> callExchangeRatesApi(Long userId) {
-    if (userId > 0) {
-      return exchangeRatesClient.getRate();
-    }
-    return Optional.empty();
-  }
 
   private void fillCurrency(Long userId, BigDecimal amount, String currencySource, String currencyDestiny, Currency currency, ExchangeResponse exchangeResponse) {
     final BigDecimal sourceRate = exchangeResponse.getRates().get(currencySource);
