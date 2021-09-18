@@ -22,26 +22,31 @@ public class CurrencyConverterService {
   private final ExchangeRatesClient exchangeRatesClient;
 
   public Currency calculateConversion(BigDecimal amount, Long userId, String currencySource, String currencyDestiny) {
-
+    final Optional<ExchangeResponse> exchangeResponseOptional = callExchangeRatesApi(userId);
     Currency currency = new Currency();
-    currency.setUserId(userId);
-
-    final Optional<ExchangeResponse> exchangeResponseOptional = exchangeRatesClient.getRate();
-
-    if (exchangeResponseOptional.isPresent()) {
-      final ExchangeResponse exchangeResponse = exchangeResponseOptional.get();
-      final BigDecimal sourceRate = exchangeResponse.getRates().get(currencySource);
-      final BigDecimal destinyRate = exchangeResponse.getRates().get(currencyDestiny);
-      final BigDecimal resultConversion = Calculator.convert(amount, sourceRate, destinyRate);
-      final BigDecimal rate = Calculator.getRate(sourceRate, destinyRate);
-      currency.setAmount(amount);
-      currency.setCurrencyDestiny(currencyDestiny);
-      currency.setCurrencySource(currencySource);
-      currency.setResult(resultConversion);
-      currency.setCurrencyRate(rate);
-      currency.setDate(Date.from(ZonedDateTime.now(ZoneId.of("UTC")).toInstant()));
-      userTransactionRepository.save(currency);
-    }
+    exchangeResponseOptional.ifPresent(exchangeResponse -> fillCurrency(userId, amount, currencySource, currencyDestiny, currency, exchangeResponse));
+    userTransactionRepository.save(currency);
     return currency;
+  }
+
+  private Optional<ExchangeResponse> callExchangeRatesApi(Long userId) {
+    if (userId > 0) {
+      return exchangeRatesClient.getRate();
+    }
+    return Optional.empty();
+  }
+
+  private void fillCurrency(Long userId, BigDecimal amount, String currencySource, String currencyDestiny, Currency currency, ExchangeResponse exchangeResponse) {
+    final BigDecimal sourceRate = exchangeResponse.getRates().get(currencySource);
+    final BigDecimal destinyRate = exchangeResponse.getRates().get(currencyDestiny);
+    final BigDecimal resultConversion = Calculator.convert(amount, sourceRate, destinyRate);
+    final BigDecimal rate = Calculator.getRate(sourceRate, destinyRate);
+    currency.setUserId(userId);
+    currency.setAmount(amount);
+    currency.setCurrencyDestiny(currencyDestiny);
+    currency.setCurrencySource(currencySource);
+    currency.setResult(resultConversion);
+    currency.setCurrencyRate(rate);
+    currency.setDate(Date.from(ZonedDateTime.now(ZoneId.of("UTC")).toInstant()));
   }
 }
