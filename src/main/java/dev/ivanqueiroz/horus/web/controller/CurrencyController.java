@@ -35,7 +35,9 @@ public class CurrencyController {
   }
 
   private CurrencyDto convertToDto(Currency currency) {
-    return modelMapper.map(currency, CurrencyDto.class);
+    final CurrencyDto currencyDto = modelMapper.map(currency, CurrencyDto.class);
+    currencyDto.setTransactionId(currency.getId());
+    return currencyDto;
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)

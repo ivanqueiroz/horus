@@ -25,4 +25,5 @@ public class CurrencyDto {
   private BigDecimal amount;
   private Date date;
   private BigDecimal result;
+  private Long transactionId;
 }
