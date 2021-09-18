@@ -12,18 +12,18 @@ import java.util.Date;
 @Getter
 @Setter
 public class CurrencyDto {
+  private Long transactionId;
   @NotBlank(message = "User ID is mandatory.")
   private Long userId;
-
   @NotBlank(message = "Source currency is mandatory (Valid options: BRL, USD, EUR, JPY)")
   private String currencySource;
-  @NotBlank(message = "Destiny currency is mandatory (Valid options: BRL, USD, EUR, JPY)")
-  private String currencyDestiny;
-  private BigDecimal currencyRate;
   @PositiveOrZero(message = "Amount is mandatory.")
   @Digits(integer=6, fraction=2, message = "Amount out of range.")
   private BigDecimal amount;
-  private Date date;
+  @NotBlank(message = "Destiny currency is mandatory (Valid options: BRL, USD, EUR, JPY)")
+  private String currencyDestiny;
   private BigDecimal result;
-  private Long transactionId;
+  private BigDecimal currencyRate;
+  private Date date;
+
 }

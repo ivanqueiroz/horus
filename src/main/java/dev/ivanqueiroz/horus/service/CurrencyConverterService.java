@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,7 +30,6 @@ public class CurrencyConverterService {
     return currency;
   }
 
-
   private void fillCurrency(Long userId, BigDecimal amount, String currencySource, String currencyDestiny, Currency currency, ExchangeResponse exchangeResponse) {
     final BigDecimal sourceRate = exchangeResponse.getRates().get(currencySource);
     final BigDecimal destinyRate = exchangeResponse.getRates().get(currencyDestiny);
@@ -42,5 +42,9 @@ public class CurrencyConverterService {
     currency.setResult(resultConversion);
     currency.setCurrencyRate(rate);
     currency.setDate(Date.from(ZonedDateTime.now(ZoneId.of("UTC")).toInstant()));
+  }
+
+  public List<Currency> getAllTransactionsFromUser(Long userId){
+    return userTransactionRepository.findByUserId(userId);
   }
 }

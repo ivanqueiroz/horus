@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/currency")
@@ -38,6 +40,11 @@ public class CurrencyController {
     final CurrencyDto currencyDto = modelMapper.map(currency, CurrencyDto.class);
     currencyDto.setTransactionId(currency.getId());
     return currencyDto;
+  }
+
+  @GetMapping("/transactions")
+  public List<CurrencyDto> getAllTransactions(@RequestParam Long userId) {
+    return currencyConverterService.getAllTransactionsFromUser(userId).stream().map(this::convertToDto).collect(Collectors.toList());
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
