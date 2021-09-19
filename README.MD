@@ -58,13 +58,13 @@ Projeto desenvolvido durante desafio proposto pela Jaya Tech. O Horus pode ser c
 
 ## ⚙️ Funcionalidades
 
-- [x] Calculo de conversão entre as moedas:
+- [x] Cálculo de conversão entre as moedas:
     - [x] Real — Código de conversão **BRL**
     - [x] Iene — Código de conversão **JPY**
     - [x] Dólar — Código de conversão **USD**
     - [x] Euro — Código de conversão **EUR**
 
-- [x] Regsitros de transações realizadas por um usuário.
+- [x] Registros de transações realizadas por um usuário.
 
 ---
 
@@ -93,7 +93,7 @@ Este projeto inicia um servidor na porta 8088, pronto para receber requisições
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 [Git](https://git-scm.com), [Java 11+](https://www.oracle.com/java/technologies/downloads/#java11) e o [Maven](https://maven.apache.org/).
 
-Além disto é bom ter uma IDE para trabalhar com o código como [IDEA](https://www.jetbrains.com/pt-br/idea/download/) ou o [Spring Tools Suite](https://spring.io/tools).
+Além disso, é bom ter uma IDE para trabalhar com o código como [IDEA](https://www.jetbrains.com/pt-br/idea/download/) ou o [Spring Tools Suite](https://spring.io/tools).
 
 Para testar a API é necessária uma ferramenta client REST como o [Postman](https://www.postman.com/downloads/).
 
@@ -124,10 +124,10 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 #### [](https://github.com/ivanqueiroz/horus#server-springboot)**Server**
 
-- **[Spring Boot](https://spring.io/projects/spring-boot)** — Framework escolhido por além de ser _stand-alone_, requer menor esforço para iniciar o desenvolvimento das regras de negócio.
+- **[Spring Boot](https://spring.io/projects/spring-boot)** — Framework escolhido por ser _stand-alone_ e requerer menor esforço para iniciar o desenvolvimento das regras de negócio.
 - **[Spring Data JPA](https://spring.io/projects/spring-data-jpa)** — Escolhido para criar as operações com o banco de dados. Também reduziu o esforço para iniciar o desenvolvimento por criar as operações mais comuns (_CRUD_).
-- **[Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)** — Permite a monitoração da aplicação remotamente. No Horus as permissões são: health,info,mappings,loggers,scheduledtasks e caches.
-- **[Bean Validator](https://beanvalidation.org/2.0-jsr380/)** — Utilizado para validação dos valores passados para a API, permite a verificação através de anotações. Possui validações para os tipos mais conhecidos e permite a criação de validações próprias. No Horus há a validação dos valores permitidos para o tipo de moeda que utiliza a especificação.
+- **[Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)** — Permite a monitoração da aplicação remotamente. No Horus as permissões são: health, info, mappings, loggers, scheduledtasks e caches.
+- **[Bean Validator](https://beanvalidation.org/2.0-jsr380/)** — Utilizado para validação dos valores passados para a API, permite a verificação através de anotações. Possui validações para os tipos mais conhecidos e permite a criação de validações próprias. No Horus há validação dos valores permitidos para o tipo de moeda que utiliza a especificação.
 - **[Lombok](https://projectlombok.org/)** — Diminui a quantidade de código escrito utilizando anotações para gerar trechos comuns durante a compilação. Utilizado no Horus para objetos do tipo _Data Transfer_ e para gerar a configuração de _log_ na classe.
 - **[modelmapper](http://modelmapper.org/)** — Mapeador de valores de objetos. No projeto é utilizado na transferência de dados entre a camada mais externa para a interna da aplicação.
 - **[MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver)** — Um servidor web de teste programável. Utilizado nos testes de integração com a API externa do Exchange Rates.
@@ -156,8 +156,8 @@ Devido ao escopo, o Horus utiliza a organização das classes em _package by lay
 - **repository** — Interface do [Spring Data JPA](https://spring.io/projects/spring-data-jpa) para a manipulação das operações de banco.
 - **service** — Classes que representam os serviços de execução do negócio do sistema.
 - **util** — Classes utilitárias para auxiliar nas regras de negócio.
-- **validator** — Classes de regras customizadas de validção que seguem o [Bean Validator](https://beanvalidation.org/2.0-jsr380/).
-- **web** — Concentra as classes que lidam com os clientes da aplicação, foi dividio em:
+- **validator** — Classes de regras customizadas de validação que seguem o [Bean Validator](https://beanvalidation.org/2.0-jsr380/).
+- **web** — Concentra as classes que lidam com os clientes da aplicação e foi dividido em:
   - **web/controller** — Lógica que lida com as requisições.
   - **web/dto** — Classes para objeto de transferência de dados entre camadas.
 
@@ -169,13 +169,19 @@ O programa foi pensado em 3 camadas:
 - **Service** — Onde as regras de negócio e processamento são executadas. A chamada a api [http://api.exchangeratesapi.io/](http://api.exchangeratesapi.io/latest?base=EUR) é acionada e os cálculos são realizados.
 - **Repository** — Camada responsável pela persistência e manipulação dos dados no banco de dados.
 
-O funcionamento interno o Controller recebe as requisições dos clientes, realiza a validação dos dados, envia para a camada de serviço. A camada de serviço chama a API [http://api.exchangeratesapi.io/](http://api.exchangeratesapi.io/latest?base=EUR), realiza os cálculos e manda o repository salvar a transação. 
-Após a persistência a camada de serviço devolve o cálculo para o controller. O ciclo é encerrado com o retorno serializado em JSON pelo controller
+O Controller recebe as requisições dos clientes, realiza a validação dos dados, envia para a camada de serviço. A camada de serviço chama a API [http://api.exchangeratesapi.io/](http://api.exchangeratesapi.io/latest?base=EUR), realiza os cálculos e manda o repository salvar a transação. 
+Após a persistência a camada de serviço devolve o cálculo para o controller. O ciclo é encerrado com o retorno serializado em JSON pelo controller.
 
 O diagrama de sequência que ilustra a ação:
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
   <img alt="Diagrama de Sequência" title="#HorusSequence" src="./src/main/resources/static/images/horus-sequencia.png" width="711">
+</p>
+
+O diagrama de classes:
+
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+  <img alt="Diagrama de Classes" title="#HorusClassDiagram" src="./src/main/resources/static/images/horus-diagram.png" width="1724">
 </p>
 
 ### Testes
