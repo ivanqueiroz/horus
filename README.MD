@@ -59,10 +59,10 @@ Projeto desenvolvido durante desafio proposto pela Jaya Tech. O Horus pode ser c
 ## ⚙️ Funcionalidades
 
 - [x] Calculo de conversão entre as moedas:
-    - [x] Real - Código de conversão **BRL**
-    - [x] Iene - Código de conversão **JPY**
-    - [x] Dólar - Código de conversão **USD**
-    - [x] Euro - Código de conversão **EUR**
+    - [x] Real — Código de conversão **BRL**
+    - [x] Iene — Código de conversão **JPY**
+    - [x] Dólar — Código de conversão **USD**
+    - [x] Euro — Código de conversão **EUR**
 
 - [x] Regsitros de transações realizadas por um usuário.
 
@@ -114,7 +114,6 @@ $ ./mvnw clean install (Linux) ou ./mvnw.cmd clean install (Windows)
 $ ./mvnw spring-boot:run
 
 # O servidor inciará na porta:8080 - acesse http://localhost:8080 
-
 ```
 
 ---
@@ -135,6 +134,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - **[H2 Database](https://www.h2database.com/html/main.html)** — Banco de dados em memória (embedded). Para o propósito do projeto encaixou-se bem e é o banco principal que registra as transações de conversão. 
 - **[SpringFox (Swagger)](https://springfox.github.io/springfox/)** — Plugin para o Spring Boot que gera a documentação da API do Horus.
 - **[Sonarlint](https://www.sonarlint.org/)** — Todo o código criado foi analisado pelo [Sonarlint](https://www.sonarlint.org/) (plugin da IDE) a cada commit, buscando seguir as melhores práticas de legibilidade e desempenho.
+- **[Jackson](https://github.com/FasterXML/jackson)** — Realiza a serialização e deserialização dos dados no formato JSON.
 
 > Veja o arquivo [pom.xml](https://github.com/ivanqueiroz/horus/blob/master/pom.xml)
 
@@ -178,6 +178,15 @@ O diagrama de sequência que ilustra a ação:
   <img alt="Diagrama de Sequência" title="#HorusSequence" src="./src/main/resources/static/images/horus-sequencia.png" width="711">
 </p>
 
+### Testes
+
+Os testes criados até o momento são:
+
+- **CalculatorTest** — Realiza os testes dos cálculos de conversão e da cotação das moedas.
+- **CurrencyDtoValidateTest** — Testa a validação dos dados dos tipos das moedas permitidas.
+- **ExchangeResponseTest** — Verifica a configuração de parser do JSON pelo [Jackson](https://github.com/FasterXML/jackson).
+- **ExchangeRatesClientTest** — Testa a configuração da integração com a exchange API.
+
 ## 👨‍💻 Contribuidores
 
 💜 Um super thanks 👏 para essa galera que propôs a ideia do projeto e fez a minha diversão do final de semana:
@@ -204,10 +213,6 @@ O diagrama de sequência que ilustra a ação:
 [![Gmail Badge](https://img.shields.io/badge/-ivanqueiroz@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:ivanqueiroz@gmail.com)](mailto:ivanqueiroz@gmail.com)
 
 ---
-
-## 📝 Licença
-
-Este projeto esta sobe a licença [MIT](./LICENSE).
 
 Feito com ❤️ por Ivan Queiroz 👋🏽 [Entre em contato!](https://www.linkedin.com/in/ivanqueiroz/)
 
