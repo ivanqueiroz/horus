@@ -76,7 +76,7 @@ A documentação da aplicação está disponível em Swagger:
   <img alt="Made by ivanqueiroz" src="https://img.shields.io/badge/Acessar%20Documentação%20-Swagger-%2304D361">
 </a>
 
-### Web
+### Swagger
 
 <p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
   <img alt="Horus" title="#Horus" src="./src/main/resources/static/images/horus-screen-shot.png" width="1027">
@@ -134,8 +134,9 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - **[MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver)** — Um servidor web de teste programável. Utilizado nos testes de integração com a API externa do Exchange Rates.
 - **[H2 Database](https://www.h2database.com/html/main.html)** — Banco de dados em memória (embedded). Para o propósito do projeto encaixou-se bem e é o banco principal que registra as transações de conversão. 
 - **[SpringFox (Swagger)](https://springfox.github.io/springfox/)** — Plugin para o Spring Boot que gera a documentação da API do Horus.
+- **[Sonarlint](https://www.sonarlint.org/)** — Todo o código criado foi analisado pelo [Sonarlint](https://www.sonarlint.org/) (plugin da IDE) a cada commit, buscando seguir as melhores práticas de legibilidade e desempenho.
 
-> Veja o arquivo  [pom.xml](https://github.com/ivanqueiroz/horus/blob/master/pom.xml)
+> Veja o arquivo [pom.xml](https://github.com/ivanqueiroz/horus/blob/master/pom.xml)
 
 #### [](https://github.com/ivanqueiroz/horus#utilit%C3%A1rios)**Utilitários**
 
@@ -143,50 +144,63 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 ---
 
+## 	:rescue_worker_helmet: Arquitetura
+
+Devido ao escopo, o Horus utiliza a organização das classes em _package by layer_ para uma melhor visualização. Apenas para as classes que lidam com a API externa foi utilizado um pouco do conceito de_package by feature_, para tratar como um módulo a parte.
+
+### Organização dos arquivos (pacotes)
+
+- **config** — Concentra as configurações do projeto. Possui as configurações do [SpringFox (Swagger)](https://springfox.github.io/springfox/), **[modelmapper](http://modelmapper.org/), cache da aplicação e do agendador de tarefas.
+- **exchangesratesapi** — Classes integrantes da comunicação com a API [http://api.exchangeratesapi.io/](http://api.exchangeratesapi.io/latest?base=EUR).
+- **model** — As entidades de negócio ficam aqui, no caso, a representação da transação de conversão.
+- **repository** — Interface do [Spring Data JPA](https://spring.io/projects/spring-data-jpa) para a manipulação das operações de banco.
+- **service** — Classes que representam os serviços de execução do negócio do sistema.
+- **util** — Classes utilitárias para auxiliar nas regras de negócio.
+- **validator** — Classes de regras customizadas de validção que seguem o [Bean Validator](https://beanvalidation.org/2.0-jsr380/).
+- **web** — Concentra as classes que lidam com os clientes da aplicação, foi dividio em:
+  - **web/controller** — Lógica que lida com as requisições.
+  - **web/dto** — Classes para objeto de transferência de dados entre camadas.
+
+### Camadas
+
+O programa foi pensado em 3 camadas:
+
+- **Controller** — Responsável por receber as requisições e passar para a camada seguinte. Nessa camada é realizada as validações dos dados enviados ([Bean Validator](https://beanvalidation.org/2.0-jsr380/)) antes de serem transferidas para a camada de negócio.
+- **Service** — Onde as regras de negócio e processamento são executadas. A chamada a api [http://api.exchangeratesapi.io/](http://api.exchangeratesapi.io/latest?base=EUR) é acionada e os cálculos são realizados.
+- **Repository** — Camada responsável pela persistência e manipulação dos dados no banco de dados.
+
+O funcionamento interno o Controller recebe as requisições dos clientes, realiza a validação dos dados, envia para a camada de serviço. A camada de serviço chama a API [http://api.exchangeratesapi.io/](http://api.exchangeratesapi.io/latest?base=EUR), realiza os cálculos e manda o repository salvar a transação. 
+Após a persistência a camada de serviço devolve o cálculo para o controller. O ciclo é encerrado com o retorno serializado em JSON pelo controller
+
+O diagrama de sequência que ilustra a ação:
+
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+  <img alt="Diagrama de Sequência" title="#HorusSequence" src="./src/main/resources/static/images/horus-sequencia.png" width="711">
+</p>
+
 ## 👨‍💻 Contribuidores
 
-💜 Um super thanks 👏 para essa galera que fez esse produto sair do campo da ideia e entrar nas lojas de aplicativos :)
+💜 Um super thanks 👏 para essa galera que propôs a ideia do projeto e fez a minha diversão do final de semana:
 
 <table>
   <tr>
-    <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars2.githubusercontent.com/u/2254731?s=400&u=0ba16a79456c2f250e7579cb388fa18c5c2d7d65&v=4" width="100px;" alt=""/><br /><sub><b>Diego Fernandes</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">👨‍🚀</a></td>
-    <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars1.githubusercontent.com/u/4669899?s=460&u=806503605676192b5d0c363e4490e13d8127ed64&v=4" width="100px;" alt=""/><br /><sub><b>Cleiton Souza</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">👨‍🚀</a></td>
-    <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars2.githubusercontent.com/u/861751?s=460&v=4" width="100px;" alt=""/><br /><sub><b>Robson Marques</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">👨‍🚀</a></td>
-    <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars3.githubusercontent.com/u/16831337?s=460&v=4" width="100px;" alt=""/><br /><sub><b>Claudio Orlandi</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">🚀</a></td>
-    <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars2.githubusercontent.com/u/37725197?s=460&u=446439436524c37f66e41f35b607dbb70358d5e4&v=4" width="100px;" alt=""/><br /><sub><b>Vinícios Fraga</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">🚀</a></td>
-    <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars3.githubusercontent.com/u/26551306?s=460&u=18446655ccae6c2a29eb177a104ecf32f029aa3a&v=4" width="100px;" alt=""/><br /><sub><b>Hugo Duarte</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">🚀</a>  <a href="https://blog.rocketseat.com.br/" title="Blog">🌐</a></td>
-
-  </tr>
-  <tr>
-    <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars0.githubusercontent.com/u/39345247?s=460&u=cdff2624a327a43e2765112a54e966a06eac6d79&v=4" width="100px;" alt=""/><br /><sub><b>Joseph Oliveira</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">🚀</a></td>
-    <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars0.githubusercontent.com/u/10366880?s=460&u=59e93e1752e9d2ece4b7d8e129d60caba9c94207&v=4" width="100px;" alt=""/><br /><sub><b>Guilherme Rodz</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">🚀</a></td>
-    <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars2.githubusercontent.com/u/6643122?s=460&u=1e9e1f04b76fb5374e6a041f5e41dce83f3b5d92&v=4" width="100px;" alt=""/><br /><sub><b>Mayk Brito</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">🚀</a></td>
-    <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars2.githubusercontent.com/u/7268910?s=460&u=0b5d9df4232e70fa66ea9f130fad4260378323de&v=4" width="100px;" alt=""/><br /><sub><b>João Paulo</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">🚀</a></td>
-    <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars2.githubusercontent.com/u/14251143?s=460&u=340ed1d854bbacc22b9a3210a18a1f589a28bc40&v=4" width="100px;" alt=""/><br /><sub><b>Luke Morales</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">🚀</a></td>
-     <td align="center"><a href="https://rocketseat.com.br"><img style="border-radius: 50%;" src="https://avatars0.githubusercontent.com/u/5151405?s=460&u=1dbcf0e89087c2dc902d3331b90e532db1543d2b&v=4" width="100px;" alt=""/><br /><sub><b>Luiz Batanero</b></sub></a><br /><a href="https://rocketseat.com.br/" title="Rocketseat">🚀</a></td>
-
+    <td align="center"><a href="https://jaya.tech/"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/456260" width="100px;" alt=""/><br /><sub><b>Raul Pereira</b></sub></a><br /><a href="https://jaya.tech/" title="Jaya">👨‍🚀</a></td>
+    <td align="center"><a href="https://jaya.tech/"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/170292?v=4" width="100px;" alt=""/><br /><sub><b>Anderson Martiniano</b></sub></a><br /><a href="https://jaya.tech/" title="Jaya">👨‍🚀</a></td>
+    <td align="center"><a href="https://jaya.tech/"><img style="border-radius: 50%;" src="https://jaya.tech/images/team/maraysa.jpg" width="100px;" alt=""/><br /><sub><b>Maraysa Nascimento</b></sub></a><br /><a href="https://jaya.tech/" title="Jaya">👨‍🚀</a></td>
   </tr>
 </table>
-
-## 💪 Como contribuir para o projeto
-
-1. Faça um **fork** do projeto.
-2. Crie uma nova branch com as suas alterações: `git checkout -b my-feature`
-3. Salve as alterações e crie uma mensagem de commit contando o que você fez: `git commit -m "feature: My new feature"`
-4. Envie as suas alterações: `git push origin my-feature`
-> Caso tenha alguma dúvida confira este [guia de como contribuir no GitHub](./CONTRIBUTING.md)
 
 ---
 
 ## 🦸 Autor
 
 <a href="https://blog.rocketseat.com.br/author/thiago/">
- <img style="border-radius: 50%;" src="https://avatars3.githubusercontent.com/u/380327?s=460&u=61b426b901b8fe02e12019b1fdb67bf0072d4f00&v=4" width="100px;" alt=""/>
+ <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/680864?v=4" width="100px;" alt=""/>
  <br />
- <sub><b>Thiago Marinho</b></sub></a> <a href="https://blog.rocketseat.com.br/author/thiago/" title="Rocketseat">🚀</a>
+ <sub><b>Ivan Queiroz</b></sub></a> <a href="https://ivanqueiroz.dev" title="Blog Ivan Queiroz">🚀</a>
  <br />
 
-[![Twitter Badge](https://img.shields.io/badge/-@ivanqueiroz-1ca0f1?style=flat-square&labelColor=1ca0f1&logo=twitter&logoColor=white&link=https://twitter.com/ivanqueiroz)](https://twitter.com/ivanqueiroz) [![Linkedin Badge](https://img.shields.io/badge/-Thiago-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/ivanqueiroz/)](https://www.linkedin.com/in/ivanqueiroz/)
+[![Twitter Badge](https://img.shields.io/badge/-@ivanqueiroz-1ca0f1?style=flat-square&labelColor=1ca0f1&logo=twitter&logoColor=white&link=https://twitter.com/ivanqueiroz)](https://twitter.com/ivanqueiroz) [![Linkedin Badge](https://img.shields.io/badge/-Ivan-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/ivanqueiroz/)](https://www.linkedin.com/in/ivanqueiroz/)
 [![Gmail Badge](https://img.shields.io/badge/-ivanqueiroz@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:ivanqueiroz@gmail.com)](mailto:ivanqueiroz@gmail.com)
 
 ---
@@ -195,10 +209,6 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 Este projeto esta sobe a licença [MIT](./LICENSE).
 
-Feito com ❤️ por Thiago Marinho 👋🏽 [Entre em contato!](https://www.linkedin.com/in/ivanqueiroz/)
+Feito com ❤️ por Ivan Queiroz 👋🏽 [Entre em contato!](https://www.linkedin.com/in/ivanqueiroz/)
 
 ---
-
-##  Versões do README
-
-[Português 🇧🇷](./README.md)  |  [Inglês sem emojis 🇺🇸](./README-en.md) | [Portugues sem logo  🇧🇷](./README-sem-logo.md) 
