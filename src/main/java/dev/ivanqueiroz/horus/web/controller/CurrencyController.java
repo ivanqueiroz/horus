@@ -4,6 +4,9 @@ import dev.ivanqueiroz.horus.model.Currency;
 import dev.ivanqueiroz.horus.service.CurrencyConverterService;
 import dev.ivanqueiroz.horus.web.dto.CurrencyDto;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -34,6 +37,11 @@ public class CurrencyController {
   @ResponseBody
   @GetMapping(value = "/convert")
   @ApiOperation(value = "Convert between two currencies ")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Return currency transaction data."),
+    @ApiResponse(code = 400, message = "You dont haver permission to use this resource."),
+    @ApiResponse(code = 500, message = "Internal exception."),
+  })
   public CurrencyDto convert(@Valid CurrencyDto currencyDto) {
     return convertToDto(currencyConverterService.calculateConversion(currencyDto.getAmount(), currencyDto.getUserId(), currencyDto.getCurrencySource(), currencyDto.getCurrencyDestiny()));
   }
@@ -45,7 +53,13 @@ public class CurrencyController {
   }
 
   @GetMapping("/transactions")
-  public List<CurrencyDto> getAllTransactions(@RequestParam Long userId) {
+  @ApiOperation(value = "Return a list with 0 o more transactions of informed user id.")
+  @ApiResponses(value = {
+    @ApiResponse(code = 200, message = "Return transaction list of user id"),
+    @ApiResponse(code = 400, message = "You dont haver permission to use this resource."),
+    @ApiResponse(code = 500, message = "Internal exception."),
+  })
+  public List<CurrencyDto> getAllTransactions(@RequestParam @ApiParam(value = "User identification.", example = "1") Long userId) {
     return currencyConverterService.getAllTransactionsFromUser(userId).stream().map(this::convertToDto).collect(Collectors.toList());
   }
 
