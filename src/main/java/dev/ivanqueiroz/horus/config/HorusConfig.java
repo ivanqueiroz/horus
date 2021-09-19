@@ -54,7 +54,7 @@ public class HorusConfig {
   @Bean
   public Docket api() {
     final ApiInfo apiInfo = new ApiInfo("Horus Currency Converter REST API", "The API realizes conversion between currencies of 4 types: (BRL, USD, EUR, JPY).",
-       "1.0.0-RC1", "", new Contact("Ivan Queiroz", "", "ivanqueiroz@gmail.com"), "", "", Collections.emptyList());
+       "1.0.0", "", new Contact("Ivan Queiroz", "", "ivanqueiroz@gmail.com"), "", "", Collections.emptyList());
     final List<Response> globalResponses = Arrays.asList(
       new ResponseBuilder()
            .code("200")

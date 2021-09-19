@@ -3,6 +3,7 @@ package dev.ivanqueiroz.horus.web.controller;
 import dev.ivanqueiroz.horus.model.Currency;
 import dev.ivanqueiroz.horus.service.CurrencyConverterService;
 import dev.ivanqueiroz.horus.web.dto.CurrencyDto;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Api(tags = "Application Operations")
 @RestController
 @RequestMapping(path = "/currency")
 @RequiredArgsConstructor
