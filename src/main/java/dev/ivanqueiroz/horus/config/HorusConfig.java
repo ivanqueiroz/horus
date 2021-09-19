@@ -9,6 +9,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.web.reactive.function.client.WebClient;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+
+import java.util.Collections;
 
 @Configuration
 public class HorusConfig {
@@ -35,6 +43,18 @@ public class HorusConfig {
     final ConcurrentMapCacheManager concurrentMapCacheManager = new ConcurrentMapCacheManager();
     concurrentMapCacheManager.setAllowNullValues(false);
     return concurrentMapCacheManager;
+  }
+
+  @Bean
+  public Docket api() {
+    final ApiInfo apiInfo = new ApiInfo("Horus Currency Converter REST API", "The API realizes conversion between currencies of 4 types: (BRL, USD, EUR, JPY).",
+       "1.0.0-RC1", "", new Contact("Ivan Queiroz", "", "ivanqueiroz@gmail.com"), "", "", Collections.emptyList());
+    return new Docket(DocumentationType.SWAGGER_2)
+      .select()
+      .apis(RequestHandlerSelectors.basePackage("dev.ivanqueiroz.horus.web.controller"))
+      .paths(PathSelectors.any())
+      .build()
+      .apiInfo(apiInfo);
   }
 
 }

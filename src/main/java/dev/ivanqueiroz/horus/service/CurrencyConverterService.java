@@ -34,20 +34,24 @@ public class CurrencyConverterService {
   }
 
   private void fillCurrency(Long userId, BigDecimal amount, String currencySource, String currencyDestiny, Currency currency, ExchangeResponse exchangeResponse) {
-    final BigDecimal sourceRate = exchangeResponse.getRates().get(currencySource);
-    final BigDecimal destinyRate = exchangeResponse.getRates().get(currencyDestiny);
-    final BigDecimal resultConversion = Calculator.convert(amount, sourceRate, destinyRate);
-    final BigDecimal rate = Calculator.getRate(sourceRate, destinyRate);
+    final BigDecimal zero = new BigDecimal("0.0");
+    final BigDecimal sourceRate = exchangeResponse.getRates().getOrDefault(currencySource, zero);
+    final BigDecimal destinyRate = exchangeResponse.getRates().getOrDefault(currencyDestiny, zero);
+    if (!sourceRate.equals(zero) && !destinyRate.equals(zero)) {
+      final BigDecimal resultConversion = Calculator.convert(amount, sourceRate, destinyRate);
+      currency.setResult(resultConversion);
+      final BigDecimal rate = Calculator.getRate(sourceRate, destinyRate);
+      currency.setCurrencyRate(rate);
+    }
     currency.setUserId(userId);
     currency.setAmount(amount);
     currency.setCurrencyDestiny(currencyDestiny);
     currency.setCurrencySource(currencySource);
-    currency.setResult(resultConversion);
-    currency.setCurrencyRate(rate);
+
     currency.setDate(Date.from(ZonedDateTime.now(ZoneId.of("UTC")).toInstant()));
   }
 
-  public List<Currency> getAllTransactionsFromUser(Long userId){
+  public List<Currency> getAllTransactionsFromUser(Long userId) {
     final List<Currency> allTransactions = userTransactionRepository.findByUserId(userId);
     log.info("User {} requested all transactions. Found: {} records", userId, allTransactions.size());
     return allTransactions;
