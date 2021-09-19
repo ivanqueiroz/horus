@@ -28,11 +28,11 @@
 
 </p>
 <h1 align="center">
-    <img alt="Horus - API de Conversão de Moedas" title="#NextLevelWeek" src="./src/main/resources/static/images/horus.png" />
+    <img alt="Horus - API de Conversão de Moedas" title="#Horus" src="./src/main/resources/static/images/horus.png" />
 </h1>
 
 <h4 align="center"> 
-	🚧  Horus API 🪙️ Concluído 🚀 🚧
+	🚧  Horus API :moneybag:️ Concluído 🚀 🚧
 </h4>
 
 <p align="center">
@@ -49,7 +49,7 @@
 
 ## 💻 Sobre o projeto
 
-🪙 Horus - é uma API em REST que realiza a conversão entre moedas com cotações atualizadas constantemente.
+:moneybag: Horus - é uma API em REST que realiza a conversão entre moedas com cotações atualizadas constantemente.
 
 
 Projeto desenvolvido durante desafio proposto pela Jaya Tech. O Horus pode ser consumido por sistemas financeiros que trabalham com cálculos entre moedas diferentes.
@@ -87,18 +87,13 @@ A documentação da aplicação está disponível em Swagger:
 
 ## 🚀 Como executar o projeto
 
-Este projeto é divido em três partes:
-1. Backend (pasta server)
-2. Frontend (pasta web)
-3. Mobile (pasta mobile)
-
-💡Tanto o Frontend quanto o Mobile precisam que o Backend esteja sendo executado para funcionar.
+Este projeto inicia um servidor na porta 8088, pronto para receber requisições REST.
 
 ### Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/).
-Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
+[Git](https://git-scm.com), [Java 11+](https://www.oracle.com/java/technologies/downloads/#java11) e o [Maven](https://maven.apache.org/).
+Além disto é bom ter uma IDE para trabalhar com o código como [IDEA](https://www.jetbrains.com/pt-br/idea/download/) ou o [Spring Tools Suite](https://spring.io/tools).
 
 #### 🎲 Rodando o Backend (servidor)
 
@@ -110,16 +105,13 @@ $ git clone git@github.com:ivanqueiroz/horus.git
 # Acesse a pasta do projeto no terminal/cmd
 $ cd horus
 
-# Vá para a pasta server
-$ cd server
-
 # Instale as dependências
-$ npm install
+$ ./mvnw clean install (Linux) ou ./mvnw.cmd clean install (Windows)
 
 # Execute a aplicação em modo de desenvolvimento
-$ npm run dev:server
+$ ./mvnw spring-boot:run
 
-# O servidor inciará na porta:3333 - acesse http://localhost:3333 
+# O servidor inciará na porta:8080 - acesse http://localhost:8080 
 
 ```
 <p align="center">
