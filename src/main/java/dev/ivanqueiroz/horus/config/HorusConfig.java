@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -74,7 +75,7 @@ public class HorusConfig {
        .globalResponses(HttpMethod.DELETE, globalResponses)
        .globalResponses(HttpMethod.PATCH, globalResponses)
       .select()
-      .apis(RequestHandlerSelectors.basePackage("dev.ivanqueiroz.horus.web.controller"))
+      .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
       .paths(PathSelectors.any())
       .build()
       .apiInfo(apiInfo);
