@@ -75,8 +75,8 @@ public class HorusConfig {
        .globalResponses(HttpMethod.DELETE, globalResponses)
        .globalResponses(HttpMethod.PATCH, globalResponses)
       .select()
-      .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
-      .paths(PathSelectors.any())
+      .apis(RequestHandlerSelectors.any())
+      .paths(PathSelectors.ant("/currency/**"))
       .build()
       .apiInfo(apiInfo);
   }
