@@ -23,9 +23,9 @@
 
   <a href="https://ivanqueiroz.dev/">
     <img alt="Stargazers" src="https://img.shields.io/badge/Blog-Ivan Queiroz-%237159c1?style=flat&logo=ghost">
-    </a>
+  </a>
 
-
+  <a href="https://github.com/ivanqueiroz/horus/actions/workflows/ci-prod.yml/badge.svg"></a>
 </p>
 <h1 align="center">
     <img alt="Horus - API de Conversão de Moedas" title="#Horus" src="./src/main/resources/static/images/horus.png" />
