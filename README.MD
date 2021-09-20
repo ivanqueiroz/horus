@@ -150,7 +150,7 @@ Devido ao escopo, o Horus utiliza a organização das classes em _package by lay
 
 ### Organização dos arquivos (pacotes)
 
-- **config** — Concentra as configurações do projeto. Possui as configurações do [SpringFox (Swagger)](https://springfox.github.io/springfox/), **[modelmapper](http://modelmapper.org/), cache da aplicação e do agendador de tarefas.
+- **config** — Concentra as configurações do projeto. Possui as configurações do [SpringFox (Swagger)](https://springfox.github.io/springfox/), [modelmapper](http://modelmapper.org/), cache da aplicação e do agendador de tarefas.
 - **exchangesratesapi** — Classes integrantes da comunicação com a API [http://api.exchangeratesapi.io/](http://api.exchangeratesapi.io/latest?base=EUR).
 - **model** — As entidades de negócio ficam aqui, no caso, a representação da transação de conversão.
 - **repository** — Interface do [Spring Data JPA](https://spring.io/projects/spring-data-jpa) para a manipulação das operações de banco.
