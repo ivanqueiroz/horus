@@ -38,12 +38,12 @@
 <p align="center">
  <a href="#-sobre-o-projeto">Sobre</a> •
  <a href="#%EF%B8%8F-funcionalidades">Funcionalidades</a> •
- <a href="#-documentacao-da-api">Documentação da API</a> • 
+ <a href="#open_book-documenta%C3%A7%C3%A3o-da-api">Documentação da API</a> • 
  <a href="#-como-executar-o-projeto">Como executar</a> • 
  <a href="#-tecnologias">Tecnologias</a> •
- <a href="#-arquitetura">Arquitetura</a> •
+ <a href="#horus#triangular_ruler-arquitetura">Arquitetura</a> •
  <a href="#-contribuidores">Contribuidores</a> • 
- <a href="#-autor">Autor</a> • 
+ <a href="#-autor">Autor</a> 
 </p>
 
 
@@ -144,7 +144,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 ---
 
-## 	:rescue_worker_helmet: Arquitetura
+## 	:triangular_ruler: Arquitetura
 
 Devido ao escopo, o Horus utiliza a organização das classes em _package by layer_ para uma melhor visualização. Apenas para as classes que lidam com a API externa foi utilizado um pouco do conceito de_package by feature_, para tratar como um módulo a parte.
 
