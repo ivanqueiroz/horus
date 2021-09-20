@@ -90,7 +90,7 @@ Este projeto inicia um servidor na porta 8088, pronto para receber requisições
 
 ### Pré-requisitos
 
-Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
+Antes de começar, você vai precisar ter instalado na sua máquina as seguintes ferramentas:
 [Git](https://git-scm.com), [Java 11+](https://www.oracle.com/java/technologies/downloads/#java11) e o [Maven](https://maven.apache.org/).
 
 Além disso, é bom ter uma IDE para trabalhar com o código como [IDEA](https://www.jetbrains.com/pt-br/idea/download/) ou o [Spring Tools Suite](https://spring.io/tools).
@@ -158,19 +158,20 @@ Devido ao escopo, o Horus utiliza a organização das classes em _package by lay
 - **util** — Classes utilitárias para auxiliar nas regras de negócio.
 - **validator** — Classes de regras customizadas de validação que seguem o [Bean Validator](https://beanvalidation.org/2.0-jsr380/).
 - **web** — Concentra as classes que lidam com os clientes da aplicação e foi dividido em:
-  - **web/controller** — Lógica que lida com as requisições.
+  - **web/controller** — Lógica que lida com as requisições e exceções.
   - **web/dto** — Classes para objeto de transferência de dados entre camadas.
 
 ### Camadas
 
 O programa foi pensado em 3 camadas:
 
-- **Controller** — Responsável por receber as requisições e passar para a camada seguinte. Nessa camada é realizada as validações dos dados enviados ([Bean Validator](https://beanvalidation.org/2.0-jsr380/)) antes de serem transferidas para a camada de negócio.
+- **Controller** — Responsável por responder as requisições. Nessa camada é realizada as validações dos dados enviados ([Bean Validator](https://beanvalidation.org/2.0-jsr380/)) antes de serem transferidas para a camada de negócio e a padronização da resposta de exceções.
 - **Service** — Onde as regras de negócio e processamento são executadas. A chamada a api [http://api.exchangeratesapi.io/](http://api.exchangeratesapi.io/latest?base=EUR) é acionada e os cálculos são realizados.
 - **Repository** — Camada responsável pela persistência e manipulação dos dados no banco de dados.
 
 O Controller recebe as requisições dos clientes, realiza a validação dos dados, envia para a camada de serviço. A camada de serviço chama a API [http://api.exchangeratesapi.io/](http://api.exchangeratesapi.io/latest?base=EUR), realiza os cálculos e manda o repository salvar a transação. 
 Após a persistência a camada de serviço devolve o cálculo para o controller. O ciclo é encerrado com o retorno serializado em JSON pelo controller.
+Caso haja um erro o mesmo é tratado pelo Spring Boot e um handler na camada Controller padroniza o JSON para a resposta.
 
 O diagrama de sequência que ilustra a ação:
 
@@ -192,6 +193,10 @@ Os testes criados até o momento são:
 - **CurrencyDtoValidateTest** — Testa a validação dos dados dos tipos das moedas permitidas.
 - **ExchangeResponseTest** — Verifica a configuração de parser do JSON pelo [Jackson](https://github.com/FasterXML/jackson).
 - **ExchangeRatesClientTest** — Testa a configuração da integração com a exchange API.
+
+### Observações
+
+Foi criado um cache para a chamada a API externa de taxas de conversão. O cache é realizado com o Id do usuário informado e o resultado, foi criado para poupar recursos, devida a limitação da conta. O cache é limpo a cada 2 horas.
 
 ## 👨‍💻 Contribuidores
 
