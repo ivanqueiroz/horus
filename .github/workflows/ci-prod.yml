@@ -1,4 +1,4 @@
-name: GitHub-Actions Horus-PRD
+name: Horus-Deploy
 
 on:
   push:
