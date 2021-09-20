@@ -37,19 +37,19 @@
 
 <p align="center">
  <a href="#-sobre-o-projeto">Sobre</a> •
- <a href="#-funcionalidades">Funcionalidades</a> •
- <a href="#-layout">Layout</a> • 
+ <a href="#%EF%B8%8F-funcionalidades">Funcionalidades</a> •
+ <a href="#-documentacao-da-api">Documentação da API</a> • 
  <a href="#-como-executar-o-projeto">Como executar</a> • 
- <a href="#-tecnologias">Tecnologias</a> • 
+ <a href="#-tecnologias">Tecnologias</a> •
+ <a href="#-arquitetura">Arquitetura</a> •
  <a href="#-contribuidores">Contribuidores</a> • 
  <a href="#-autor">Autor</a> • 
- <a href="#user-content--licença">Licença</a>
 </p>
 
 
 ## 💻 Sobre o projeto
 
-:moneybag: Horus - é uma API em REST que realiza a conversão entre moedas com cotações atualizadas constantemente.
+:moneybag: Horus — é uma API em REST que realiza a conversão entre moedas com cotações atualizadas constantemente.
 
 
 Projeto desenvolvido durante desafio proposto pela Jaya Tech. O Horus pode ser consumido por sistemas financeiros que trabalham com cálculos entre moedas diferentes.
@@ -68,7 +68,7 @@ Projeto desenvolvido durante desafio proposto pela Jaya Tech. O Horus pode ser c
 
 ---
 
-## 🎨 Documentação da API
+## :open_book: Documentação da API
 
 A documentação da aplicação está disponível em Swagger:
 
