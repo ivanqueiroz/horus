@@ -25,14 +25,20 @@ public class HorusApplication {
   private CacheManager cacheManager;
 
   public static void main(String[] args) {
+    log.info("Horus starting.");
     SpringApplication.run(HorusApplication.class, args);
+    log.info("Horus started.");
   }
 
   @Scheduled(fixedRate = 2 * HOUR)
   public void evictAllCaches() {
     log.info("Cleaning caches.");
-    cacheManager.getCacheNames()
-      .forEach(cacheName -> Objects.requireNonNull(cacheManager.getCache(cacheName)).clear());
+    cacheManager.getCacheNames().forEach(cacheName -> {
+      if (log.isDebugEnabled()) {
+        log.debug("Cleaning {} cache.", cacheName);
+      }
+      Objects.requireNonNull(cacheManager.getCache(cacheName)).clear();
+    });
   }
 
 }

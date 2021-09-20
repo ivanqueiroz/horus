@@ -29,7 +29,7 @@ public class CurrencyConverterService {
     Currency currency = new Currency();
     exchangeResponseOptional.ifPresent(exchangeResponse -> fillCurrency(userId, amount, currencySource, currencyDestiny, currency, exchangeResponse));
     userTransactionRepository.save(currency);
-    log.info("{} saved.", currency);
+    log.info("{} saved and returned.", currency);
     return currency;
   }
 
@@ -53,7 +53,10 @@ public class CurrencyConverterService {
 
   public List<Currency> getAllTransactionsFromUser(Long userId) {
     final List<Currency> allTransactions = userTransactionRepository.findByUserId(userId);
-    log.info("User {} requested all transactions. Found: {} records", userId, allTransactions.size());
+    log.info("UserId {} requested all transactions. Found: {} records", userId, allTransactions.size());
+    if (log.isDebugEnabled()) {
+      log.debug("Returned {}", allTransactions);
+    }
     return allTransactions;
   }
 }

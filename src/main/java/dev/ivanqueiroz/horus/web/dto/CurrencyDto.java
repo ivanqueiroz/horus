@@ -4,6 +4,7 @@ import dev.ivanqueiroz.horus.validator.ValidCurrency;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +15,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@ToString
 public class CurrencyDto {
 
   @ApiModelProperty(hidden = true)
