@@ -34,9 +34,8 @@ public class CurrencyController {
   @ResponseBody
   @GetMapping(value = "/convert")
   @ApiOperation(value = "Convert between two currencies ")
-  @ApiResponses(value = {@ApiResponse(code = 200, message = "Return currency transaction data."), @ApiResponse(code = 400, message = "You dont haver permission to use this resource."),
+  @ApiResponses(value = {@ApiResponse(code = 200, message = "Return currency transaction data."), @ApiResponse(code = 400, message = "You dont have permission to use this resource."),
     @ApiResponse(code = 500, message = "Internal exception."),})
-
   public CurrencyDto convert(@Valid CurrencyDto currencyDto) {
     log.info("Method convert called with parameters {}.", currencyDto);
     return convertToDto(currencyConverterService.calculateConversion(currencyDto.getAmount(), currencyDto.getUserId(), currencyDto.getCurrencySource(), currencyDto.getCurrencyDestiny()));
@@ -53,7 +52,7 @@ public class CurrencyController {
 
   @GetMapping("/transactions")
   @ApiOperation(value = "Return a list with 0 o more transactions of informed user id.")
-  @ApiResponses(value = {@ApiResponse(code = 200, message = "Return transaction list of user id"), @ApiResponse(code = 400, message = "You dont haver permission to use this resource."),
+  @ApiResponses(value = {@ApiResponse(code = 200, message = "Return transaction list of user id"), @ApiResponse(code = 400, message = "You dont have permission to use this resource."),
     @ApiResponse(code = 500, message = "Internal exception."),})
   public List<CurrencyDto> getAllTransactions(@RequestParam @ApiParam(value = "User identification.", example = "1") Long userId) {
     log.info("Method allTransactions called with parameter {}.", userId);
